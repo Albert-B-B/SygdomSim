@@ -6,6 +6,7 @@ Created on Thu Mar  4 10:23:44 2021
 """
 import tkinter as tk
 import random 
+import math
 root = tk.Tk()
 canvas = tk.Canvas(root,height=400,width=400,background="grey")
 canvas.pack()
@@ -32,10 +33,11 @@ class person:
     def spread(self, folk):
         #How it spreads from each person
         spreadType = 0
+        spreadRadius = 3
         if self.status == 1:
             for i in folk:
                 if spreadType == 0:
-                    if i.status == 0 and self:
+                    if i.status == 0 and math.sqrt((self.x-i.x)**2+(self.y-i.y)**2) <= spreadRadius:
                         #Does makes it so it doesn't imeadieately spread from the person
                         i.status = -1
     #Handles the result of spreading
@@ -52,7 +54,12 @@ for i in range(numPep):
 print(people[1])
 people[0].spread(people)
 print(people[1])
-
+def spreadPop():
+    global people
+    for i in people:
+        i.spread()
+    for i in people:
+        i.resolveSpread()
 #UI
 
 while False:
