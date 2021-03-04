@@ -34,29 +34,29 @@ class person:
         SPEED = 1.6
         self.Movementx = math.cos(math.radians(Angle))
         self.Movementy= math.sin(math.radians(Angle))
-        def draw(self):
-            canvas.move(self.grafisk_obj, self.x, self.y)
+    def draw(self):
+        canvas.move(self.grafisk_obj, self.x, self.y)
 
-            self.x += 1 * loop_factor
-            self.y += 1 * loop_factor
+        self.x += 1 * loop_factor
+        self.y += 1 * loop_factor
 
-        def __str__(self):
-            return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
-        def spread(self, folk):
-            #How it spreads from each person
-            spreadType = 0
-            spreadRadius = 3
-            if self.status == 1:
-                for i in folk:
-                    if spreadType == 0:
-                        if i.status == 0 and math.sqrt((self.x-i.x)**2+(self.y-i.y)**2) <= spreadRadius:
-                            #Does makes it so it doesn't imeadieately spread from the person
-                            i.status = -1
-        #Handles the result of spreading
-        def resolveSpread(self):
-            if self.status == -1:
-                self.status = 1
-                self.color = "red"
+    def __str__(self):
+        return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
+    def spread(self, folk):
+        #How it spreads from each person
+        spreadType = 0
+        spreadRadius = 3
+        if self.status == 1:
+            for i in folk:
+                if spreadType == 0:
+                    if i.status == 0 and math.sqrt((self.x-i.x)**2+(self.y-i.y)**2) <= spreadRadius:
+                        #Does makes it so it doesn't imeadieately spread from the person
+                        i.status = -1
+    #Handles the result of spreading
+    def resolveSpread(self):
+        if self.status == -1:
+            self.status = 1
+            self.color = "red"
 #Parameters of canvas height and width
 width = 500
 height = 500
