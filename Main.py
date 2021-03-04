@@ -5,7 +5,7 @@ Created on Thu Mar  4 10:23:44 2021
 @author: 
 """
 import tkinter as tk
-
+import random 
 root = tk.Tk()
 canvas = tk.Canvas(root,height=400,width=400,background="grey")
 canvas.pack()
@@ -35,9 +35,15 @@ class person:
         spreadType = 0
         if self.status == 1:
             for i in folk:
-                if i.status == 1:
-                    i.status = 0
-
+                if i.status == 0:
+                    #Does makes it so it doesn't imeadieately spread from the person
+                    i.status = -1
+    #Handles the result of spreading
+    def resolveSpread(self):
+        if self.status == -1:
+            self.status = 1 
+width = 500
+height = 500
 people = []
 #Number of people
 numPep = 2
@@ -49,7 +55,7 @@ print(people[1])
 
 #UI
 
-while True:
+while False:
     for person in people:
         person.draw()
         
