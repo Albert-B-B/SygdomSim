@@ -6,10 +6,8 @@ Created on Thu Mar  4 10:23:44 2021
 """
 import tkinter as tk
 from random import randrange
-import math
 
 import time
-
 
 import random
 import math
@@ -59,9 +57,9 @@ class person:
             if self.status == -1:
                 self.status = 1
                 self.color = "red"
-    #Parameters of canvas height and width
-    width = 500
-    height = 500
+#Parameters of canvas height and width
+width = 500
+height = 500
 
 people = []
 #Number of people
