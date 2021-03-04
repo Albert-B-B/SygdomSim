@@ -14,7 +14,7 @@ PERSON_RADIUS = 10
 
 class person:
     def __init__(self,status,position,color):
-        #
+        #0 for non contaminated and 1 for infected.
         self.status = status
         #Format [x,y]
         self.position = position
@@ -26,13 +26,26 @@ class person:
         pass
     def draw(self):
         canvas.move(self.grafisk_obj, self.position[0], self.position[1])
-        self.position[0] += 0.01
-        self.position[1] += 0.01
+        self.position[0] += 0.001
+        self.position[1] += 0.001
+    def __str__(self):
+        return "Status: {} Position: {} Color: {}".format(self.status,self.position,self.color)
+    def spread(self, folk):
+        #How it spreads from each person
+        spreadType = 0
+        if self.status == 1:
+            for i in folk:
+                if i.status == 1:
+                    i.status = 0
 
-N = 10
 people = []
-for i in range(10):
-    people.append(person(0,[0,0],"black"))
+#Number of people
+numPep = 2
+for i in range(numPep):
+    people.append(person(1,[0,0],"black"))
+print(people[1])
+people[0].spread(people)
+print(people[1])
 
 #UI
 
