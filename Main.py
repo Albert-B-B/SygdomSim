@@ -39,7 +39,7 @@ class person:
         self.x = newX
         self.y = newY
         
-        
+
     def __str__(self):
         return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
     def spread(self, folk):
@@ -56,22 +56,25 @@ class person:
     def resolveSpread(self):
         if self.status == -1:
             self.status = 1 
+            self.color = "red"
+#Parameters of canvas height and width
 width = 500
 height = 500
+
 people = []
 #Number of people
 numPep = 10
 for i in range(numPep):
     people.append(person(1,random.randint(0, width),random.randint(0,height),"black"))
-print(people[1])
-people[0].spread(people)
-print(people[1])
+
+#Spreads disease for entire population
 def spreadPop():
     global people
     for i in people:
-        i.spread()
+        i.spread(people)
     for i in people:
         i.resolveSpread()
+
 #UI
 
 
