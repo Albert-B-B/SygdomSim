@@ -32,13 +32,15 @@ class person:
         Angle = randrange(0,360)
         TOM = randrange(1,6,1)
         SPEED = 1.6
-        self.Movementx = math.cos(math.radians(Angle))
-        self.Movementy= math.sin(math.radians(Angle))
+        Movementx = math.cos(math.radians(Angle))
+        Movementy = math.sin(math.radians(Angle))
+        return Movementx, Movementy
     def draw(self):
         canvas.move(self.grafisk_obj, self.x, self.y)
 
-        self.x += 1 * loop_factor
-        self.y += 1 * loop_factor
+        Movex, Movey = self.move()
+        self.x += Movex * loop_factor
+        self.y += Movey * loop_factor
 
     def __str__(self):
         return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
