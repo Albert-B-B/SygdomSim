@@ -2,14 +2,14 @@
 """
 Created on Thu Mar  4 10:23:44 2021
 
-@author: 
+@author:
 """
 import tkinter as tk
+from random import randrange
 
 import time
 
-
-import random 
+import random
 import math
 
 root = tk.Tk()
@@ -29,16 +29,16 @@ class person:
         self.color = color
         self.grafisk_obj = self.id=canvas.create_oval(self.x - PERSON_RADIUS,self.y - PERSON_RADIUS,self.x + PERSON_RADIUS,self.y + PERSON_RADIUS, fill=color, outline='')
     def move(self):
-        pass
+        Angle = randrange(0,360)
+        TOM = randrange(1,6,1)
+        SPEED = 1.6
+        self.Movementx = math.cos(math.radians(Angle))
+        self.Movementy= math.sin(math.radians(Angle))
     def draw(self):
-        newX = self.x + 30 * loop_factor
-        newY = self.y + 30 * loop_factor
- 
-        canvas.move(self.grafisk_obj, newX - self.x, newY - self.y)
-        
-        self.x = newX
-        self.y = newY
-        
+        canvas.move(self.grafisk_obj, self.x, self.y)
+
+        self.x += 1 * loop_factor
+        self.y += 1 * loop_factor
 
     def __str__(self):
         return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
@@ -55,7 +55,7 @@ class person:
     #Handles the result of spreading
     def resolveSpread(self):
         if self.status == -1:
-            self.status = 1 
+            self.status = 1
             self.color = "red"
 #Parameters of canvas height and width
 width = 500
@@ -80,13 +80,13 @@ def spreadPop():
 
 while True:
     start_time = time.time()
-    
+
     for person in people:
         person.draw()
-        
-    
+
+
     canvas.pack()
     root.update_idletasks()
     root.update()
-    
+
     loop_factor = (time.time() - start_time)
