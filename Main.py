@@ -31,7 +31,7 @@ class person:
     def move(self):
         pass
     def draw(self):
-        canvas.move(self.grafisk_obj, self.position[0], self.position[1])
+        canvas.move(self.grafisk_obj, self.x, self.y)
 
         self.x += 1 * loop_factor
         self.y += 1 * loop_factor
@@ -52,22 +52,25 @@ class person:
     def resolveSpread(self):
         if self.status == -1:
             self.status = 1 
+            self.color = "red"
+#Parameters of canvas height and width
 width = 500
 height = 500
+
 people = []
 #Number of people
 numPep = 10
 for i in range(numPep):
     people.append(person(1,random.randint(0, width),random.randint(0,height),"black"))
-print(people[1])
-people[0].spread(people)
-print(people[1])
+
+#Spreads disease for entire population
 def spreadPop():
     global people
     for i in people:
-        i.spread()
+        i.spread(people)
     for i in people:
         i.resolveSpread()
+
 #UI
 
 
