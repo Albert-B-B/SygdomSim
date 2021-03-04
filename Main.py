@@ -31,11 +31,15 @@ class person:
     def move(self):
         pass
     def draw(self):
-        canvas.move(self.grafisk_obj, self.position[0], self.position[1])
-
-        self.x += 1 * loop_factor
-        self.y += 1 * loop_factor
-
+        newX = self.x + 30 * loop_factor
+        newY = self.y + 30 * loop_factor
+ 
+        canvas.move(self.grafisk_obj, newX - self.x, newY - self.y)
+        
+        self.x = newX
+        self.y = newY
+        
+        
     def __str__(self):
         return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
     def spread(self, folk):
