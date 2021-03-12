@@ -32,20 +32,28 @@ class person:
         self.x = x
         self.y = y
         self.color = color
+        self.TimeOfMovement = 0
+
     def move(self):
         Angle = randrange(0,360)
         TOM = randrange(1,6,1)
-        SPEED = 1.6
-        Movementx = 10*math.cos(math.radians(Angle))
-        Movementy = 10*math.sin(math.radians(Angle))
-        return Movementx, Movementy
+        SPEED = 10.6
+        Movementx = math.cos(math.radians(Angle))*SPEED
+        Movementy = math.sin(math.radians(Angle))*SPEED
+        return Movementx, Movementy, TOM
+    
     def draw(self):
         r = 5
         canvas.create_oval(self.x-r, self.y-r, self.x+r, self.y+r, fill=self.color)
 
-        Movex, Movey = self.move()
-        self.x += Movex * loop_factor
-        self.y += Movey * loop_factor
+        if self.TimeOfMovement == 0:
+            self.Movex, self.Movey, self.TimeOfMovement = self.move()
+        elif self.TimeOfMovement > 0:
+            self.x += self.Movex * loop_factor
+            self.y += self.Movey * loop_factor
+            self.TimeOfMovement -= 1
+        else:
+            Print("Error")
 
     def __str__(self):
         return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
