@@ -12,6 +12,11 @@ import time
 import random
 import math
 
+
+#Parameters of canvas height and width
+widthCanvas = 400
+heightCanvas = 400
+
 root = tk.Tk()
 canvas = tk.Canvas(root,height=400,width=400,background="grey")
 canvas.pack()
@@ -27,16 +32,16 @@ class person:
         self.x = x
         self.y = y
         self.color = color
-        self.grafisk_obj = self.id=canvas.create_oval(self.x - PERSON_RADIUS,self.y - PERSON_RADIUS,self.x + PERSON_RADIUS,self.y + PERSON_RADIUS, fill=color, outline='')
     def move(self):
         Angle = randrange(0,360)
         TOM = randrange(1,6,1)
         SPEED = 1.6
-        Movementx = math.cos(math.radians(Angle))
-        Movementy = math.sin(math.radians(Angle))
+        Movementx = 10*math.cos(math.radians(Angle))
+        Movementy = 10*math.sin(math.radians(Angle))
         return Movementx, Movementy
     def draw(self):
-        canvas.move(self.grafisk_obj, self.x, self.y)
+        r = 5
+        canvas.create_oval(self.x-r, self.y-r, self.x+r, self.y+r, fill=self.color)
 
         Movex, Movey = self.move()
         self.x += Movex * loop_factor
@@ -59,15 +64,13 @@ class person:
         if self.status == -1:
             self.status = 1
             self.color = "red"
-#Parameters of canvas height and width
-width = 500
-height = 500
+
 
 people = []
 #Number of people
-numPep = 10
+numPep = 100
 for i in range(numPep):
-    people.append(person(1,random.randint(0, width),random.randint(0,height),"black"))
+    people.append(person(1,random.randint(0, widthCanvas),random.randint(0,heightCanvas),"black"))
 
 #Spreads disease for entire population
 def spreadPop():
@@ -79,8 +82,8 @@ def spreadPop():
 
 #UI
 
-
 while True:
+    canvas.create_rectangle(0, 0, 500, 500, fill="grey")
     start_time = time.time()
 
     for person in people:
