@@ -92,3 +92,4 @@ while True:
     root.update()
 
     loop_factor = (time.time() - start_time)
+    spreadPop()
