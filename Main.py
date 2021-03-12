@@ -33,13 +33,16 @@ class person:
         self.y = y
         self.color = color
         self.TimeOfMovement = 0
-
+        self.healthyTime = 0
     def move(self):
         Angle = randrange(0,360)
         TOM = randrange(10,60,1)
         SPEED = 20
         Movementx = math.cos(math.radians(Angle))*SPEED
         Movementy = math.sin(math.radians(Angle))*SPEED
+        if self.status == 2:
+            Movementx = 0
+            Movementy = 0
         return Movementx, Movementy, TOM
 
     def draw(self):
@@ -53,16 +56,17 @@ class person:
             self.y += self.Movey * loop_factor
             self.TimeOfMovement -= 1
         else:
-            Print("Error")
+            print("Error")
 
     def __str__(self):
         return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
     def spread(self, folk):
         #How it spreads from each person
         spreadType = 0
-        spreadRadius = 60
-        deathChance = 0.002
-        imunityChance = 0.001
+        spreadRadius = 20
+        deathChance = 0.001
+        imunityChance = 0.0005
+        healthyChance = 0.001
         if self.status == 1:
             for i in folk:
                 if spreadType == 0:
@@ -73,6 +77,10 @@ class person:
                 self.status = -2
             elif random.random() < imunityChance:
                 self.status = -3
+            elif random.random() < healthyChance:
+                self.status = -4
+                self.color = "yellow"
+                self.healthyTime = random.randint(300,750)
     #Handles the result of spreading
     def resolveSpread(self):
         if self.status == -1:
@@ -84,15 +92,20 @@ class person:
         elif self.status == -3:
             self.status = 3
             self.color = "cyan"
+        elif self.status == -4:
+            self.healthyTime -= 1
+            if self.healthyTime == 0:
+                self.status = 0
+                self.color = "blue"
 
 
 people = []
 #Number of people
-numPep = 50
+numPep = 198
 for i in range(numPep):
     people.append(person(0,random.randint(0, widthCanvas),random.randint(0,heightCanvas),"blue"))
-people.append(person(1,300,300,"red"))
-people.append(person(1,300,301,"red"))
+people.append(person(1,350,350,"red"))
+people.append(person(1,50,50,"red"))
 #Spreads disease for entire population
 def spreadPop():
     global people
@@ -102,7 +115,7 @@ def spreadPop():
         i.resolveSpread()
 
 #UI
-
+done = False
 while True:
     canvas.delete("all")
     canvas.create_rectangle(0, 0, 500, 500, fill="grey")
@@ -118,3 +131,16 @@ while True:
 
     loop_factor = (time.time() - start_time)
     spreadPop()
+    if done:
+        break
+    done = True
+    for person in people:
+        if person.status==1:
+            done = False
+            break
+dead = 0
+for i in people:
+    if i.status == 2:
+        dead += 1
+print("Dead: " + str(dead))
+input("Time stop")
