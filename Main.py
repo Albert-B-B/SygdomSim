@@ -28,19 +28,26 @@ class person:
         self.y = y
         self.color = color
         self.grafisk_obj = self.id=canvas.create_oval(self.x - PERSON_RADIUS,self.y - PERSON_RADIUS,self.x + PERSON_RADIUS,self.y + PERSON_RADIUS, fill=color, outline='')
+        self.TimeOfMovement = 0
     def move(self):
         Angle = randrange(0,360)
         TOM = randrange(1,6,1)
         SPEED = 1.6
-        Movementx = math.cos(math.radians(Angle))
-        Movementy = math.sin(math.radians(Angle))
-        return Movementx, Movementy
+        Movementx = math.cos(math.radians(Angle))*SPEED
+        Movementy = math.sin(math.radians(Angle))*SPEED
+        return Movementx, Movementy, TOM
     def draw(self):
-        canvas.move(self.grafisk_obj, self.x, self.y)
+        r=5
+        canvas.create_oval(self.x-r, self.y-r,self.x+r,self.y+r,fill=self.color)
 
-        Movex, Movey = self.move()
-        self.x += Movex * loop_factor
-        self.y += Movey * loop_factor
+        if self.TimeOfMovement == 0:
+            Movex, Movey, TimeOfMovement = self.move()
+        elif self.TimeOfMovement > 0:
+            self.x += Movex * loop_factor
+            self.y += Movey * loop_factor
+            self.TimeOfMovement -= 1
+        else:
+            Print("Error")
 
     def __str__(self):
         return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
