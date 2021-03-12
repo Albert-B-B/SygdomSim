@@ -12,6 +12,11 @@ import time
 import random
 import math
 
+
+#Parameters of canvas height and width
+widthCanvas = 400
+heightCanvas = 400
+
 root = tk.Tk()
 canvas = tk.Canvas(root,height=400,width=400,background="grey")
 canvas.pack()
@@ -27,24 +32,25 @@ class person:
         self.x = x
         self.y = y
         self.color = color
-        self.grafisk_obj = self.id=canvas.create_oval(self.x - PERSON_RADIUS,self.y - PERSON_RADIUS,self.x + PERSON_RADIUS,self.y + PERSON_RADIUS, fill=color, outline='')
         self.TimeOfMovement = 0
+
     def move(self):
         Angle = randrange(0,360)
         TOM = randrange(1,6,1)
-        SPEED = 1.6
+        SPEED = 10.6
         Movementx = math.cos(math.radians(Angle))*SPEED
         Movementy = math.sin(math.radians(Angle))*SPEED
         return Movementx, Movementy, TOM
+    
     def draw(self):
-        r=5
-        canvas.create_oval(self.x-r, self.y-r,self.x+r,self.y+r,fill=self.color)
+        r = 5
+        canvas.create_oval(self.x-r, self.y-r, self.x+r, self.y+r, fill=self.color)
 
         if self.TimeOfMovement == 0:
-            Movex, Movey, TimeOfMovement = self.move()
+            self.Movex, self.Movey, self.TimeOfMovement = self.move()
         elif self.TimeOfMovement > 0:
-            self.x += Movex * loop_factor
-            self.y += Movey * loop_factor
+            self.x += self.Movex * loop_factor
+            self.y += self.Movey * loop_factor
             self.TimeOfMovement -= 1
         else:
             Print("Error")
@@ -54,7 +60,7 @@ class person:
     def spread(self, folk):
         #How it spreads from each person
         spreadType = 0
-        spreadRadius = 3
+        spreadRadius = 10
         if self.status == 1:
             for i in folk:
                 if spreadType == 0:
@@ -66,16 +72,15 @@ class person:
         if self.status == -1:
             self.status = 1
             self.color = "red"
-#Parameters of canvas height and width
-width = 500
-height = 500
+
 
 people = []
 #Number of people
-numPep = 10
+numPep = 50
 for i in range(numPep):
-    people.append(person(1,random.randint(0, width),random.randint(0,height),"black"))
-
+    people.append(person(0,random.randint(0, widthCanvas),random.randint(0,heightCanvas),"blue"))
+people.append(person(1,300,300,"red"))
+people.append(person(1,300,301,"red"))
 #Spreads disease for entire population
 def spreadPop():
     global people
@@ -86,8 +91,8 @@ def spreadPop():
 
 #UI
 
-
 while True:
+    canvas.create_rectangle(0, 0, 500, 500, fill="grey")
     start_time = time.time()
 
     for person in people:
@@ -99,3 +104,4 @@ while True:
     root.update()
 
     loop_factor = (time.time() - start_time)
+    spreadPop()
