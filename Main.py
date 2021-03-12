@@ -36,12 +36,12 @@ class person:
         Angle = randrange(0,360)
         TOM = randrange(1,6,1)
         SPEED = 1.6
-        Movementx = 10*math.cos(math.radians(Angle))
-        Movementy = 10*math.sin(math.radians(Angle))
+        Movementx = random.randint(0,30)*math.cos(math.radians(Angle))
+        Movementy = random.randint(0,30)*math.sin(math.radians(Angle))
         return Movementx, Movementy
     def draw(self):
         r = 5
-        canvas.create_oval(self.x-r, self.y-r, self.x+r, self.y+r, fill=self.color)
+        canvas.create_rectangle(self.x-r, self.y-r, self.x+r, self.y+r, fill=self.color)
 
         Movex, Movey = self.move()
         self.x += Movex * loop_factor
@@ -52,18 +52,30 @@ class person:
     def spread(self, folk):
         #How it spreads from each person
         spreadType = 0
-        spreadRadius = 10
+        spreadRadius = 60
+        deathChance = 0.002
+        imunityChance = 0.001
         if self.status == 1:
             for i in folk:
                 if spreadType == 0:
                     if i.status == 0 and math.sqrt((self.x-i.x)**2+(self.y-i.y)**2) <= spreadRadius:
                         #Does makes it so it doesn't imeadieately spread from the person
                         i.status = -1
+            if random.random() < deathChance:
+                self.status = -2
+            elif random.random() < imunityChance:
+                self.status = -3
     #Handles the result of spreading
     def resolveSpread(self):
         if self.status == -1:
             self.status = 1
             self.color = "red"
+        elif self.status == -2:
+            self.status = 2
+            self.color = "Black"
+        elif self.status == -3:
+            self.status = 3
+            self.color = "cyan"
 
 
 people = []
@@ -84,6 +96,7 @@ def spreadPop():
 #UI
 
 while True:
+    canvas.delete("all")
     canvas.create_rectangle(0, 0, 500, 500, fill="grey")
     start_time = time.time()
 
