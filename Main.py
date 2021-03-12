@@ -52,7 +52,7 @@ class person:
     def spread(self, folk):
         #How it spreads from each person
         spreadType = 0
-        spreadRadius = 3
+        spreadRadius = 10
         if self.status == 1:
             for i in folk:
                 if spreadType == 0:
@@ -68,10 +68,11 @@ class person:
 
 people = []
 #Number of people
-numPep = 100
+numPep = 50
 for i in range(numPep):
-    people.append(person(1,random.randint(0, widthCanvas),random.randint(0,heightCanvas),"black"))
-
+    people.append(person(0,random.randint(0, widthCanvas),random.randint(0,heightCanvas),"blue"))
+people.append(person(1,300,300,"red"))
+people.append(person(1,300,301,"red"))
 #Spreads disease for entire population
 def spreadPop():
     global people
