@@ -36,8 +36,8 @@ class person:
 
     def move(self):
         Angle = randrange(0,360)
-        TOM = randrange(1,6,1)
-        SPEED = 10.6
+        TOM = randrange(10,60,1)
+        SPEED = 20
         Movementx = math.cos(math.radians(Angle))*SPEED
         Movementy = math.sin(math.radians(Angle))*SPEED
         return Movementx, Movementy, TOM
