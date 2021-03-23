@@ -7,21 +7,24 @@ Created on Thu Mar  4 10:23:44 2021
 import tkinter as tk
 from random import randrange
 
+import sys
 import time
+import ParameterHandler as config
 
 import random
 import math
 
-
+#Initializes settings
+args = sys.argv
+config.initializeConfig(args)
 #Parameters of canvas height and width
-widthCanvas = 400
-heightCanvas = 400
+widthCanvas = config.getVal("-width")
+heightCanvas = config.getVal("-height")
 
 root = tk.Tk()
-canvas = tk.Canvas(root,height=400,width=400,background="grey")
+canvas = tk.Canvas(root,height=heightCanvas,width=widthCanvas,background="grey")
 canvas.pack()
 
-PERSON_RADIUS = 10
 loop_factor = 0
 
 class person:
@@ -36,8 +39,8 @@ class person:
         self.healthyTime = 0
     def move(self):
         Angle = randrange(0,360)
-        TOM = randrange(10,60,1)
-        SPEED = 20
+        TOM = randrange(config.getVal("-turnIntervalMin"),config.getVal("-turnIntervalMax"),1)
+        SPEED = config.getVal("-speed")
         Movementx = math.cos(math.radians(Angle))*SPEED
         Movementy = math.sin(math.radians(Angle))*SPEED
         if self.status == 2:
@@ -46,7 +49,7 @@ class person:
         return Movementx, Movementy, TOM
 
     def draw(self):
-        r = 5
+        r = config.getVal("-squareLength")
         canvas.create_rectangle(self.x-r, self.y-r, self.x+r, self.y+r, fill=self.color)
 
         if self.TimeOfMovement == 0:
@@ -62,11 +65,11 @@ class person:
         return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
     def spread(self, folk):
         #How it spreads from each person
-        spreadType = 0
-        spreadRadius = 20
-        deathChance = 0.001
-        imunityChance = 0.0005
-        healthyChance = 0.001
+        spreadType = config.getVal("-spreadType")
+        spreadRadius = config.getVal("-spreadRadius")
+        deathChance = config.getVal("-chanceDeath")
+        imunityChance = config.getVal("-chanceImune")
+        healthyChance = config.getVal("-chanceHealthy")
         if self.status == 1:
             for i in folk:
                 if spreadType == 0:
@@ -80,28 +83,28 @@ class person:
             elif random.random() < healthyChance:
                 self.status = -4
                 self.color = "yellow"
-                self.healthyTime = random.randint(300,750)
+                self.healthyTime = random.randint(config.getVal("-tempImuneMin"),config.getVal("-tempImuneMax"))
     #Handles the result of spreading
     def resolveSpread(self):
         if self.status == -1:
             self.status = 1
-            self.color = "red"
+            self.color = config.getVal("-sickColor")
         elif self.status == -2:
             self.status = 2
-            self.color = "Black"
+            self.color = config.getVal("-deathColor")
         elif self.status == -3:
             self.status = 3
-            self.color = "cyan"
+            self.color = config.getVal("-imuneColor")
         elif self.status == -4:
             self.healthyTime -= 1
             if self.healthyTime == 0:
                 self.status = 0
-                self.color = "blue"
+                self.color = config.getVal("-healthyColor")
 
 
 people = []
 #Number of people
-numPep = 198
+numPep = config.getVal("-pop")
 for i in range(numPep):
     people.append(person(0,random.randint(0, widthCanvas),random.randint(0,heightCanvas),"blue"))
 people.append(person(1,350,350,"red"))
@@ -118,7 +121,7 @@ def spreadPop():
 done = False
 while True:
     canvas.delete("all")
-    canvas.create_rectangle(0, 0, 500, 500, fill="grey")
+    canvas.create_rectangle(0, 0, heightCanvas, widthCanvas, fill="grey")
     start_time = time.time()
 
     for person in people:
