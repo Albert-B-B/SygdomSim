@@ -35,9 +35,10 @@ class person:
         self.TimeOfMovement = 0
         self.healthyTime = 0
     def move(self):
+        #Controls direction and length in frames
         Angle = randrange(0,360)
-        TOM = randrange(10,60,1)
-        SPEED = 20
+        TOM = randrange(60,120,1)
+        SPEED = 30
         Movementx = math.cos(math.radians(Angle))*SPEED
         Movementy = math.sin(math.radians(Angle))*SPEED
         if self.status == 2:
@@ -56,7 +57,7 @@ class person:
             self.y += self.Movey * loop_factor
             self.TimeOfMovement -= 1
         else:
-            print("Error")
+            print("Error: TimeOfMovement below threshold")
 
     def __str__(self):
         return "Status: {} Position: {},{} Color: {}".format(self.status,self.x,self.y,self.color)
