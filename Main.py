@@ -53,12 +53,14 @@ class person:
         r = config.getVal("-squareLength")
         canvas.create_rectangle(self.x-r, self.y-r, self.x+r, self.y+r, fill=self.color)
 
-        if self.TimeOfMovement == 0:
+        if self.TimeOfMovement <= 0:
             self.Movex, self.Movey, self.TimeOfMovement = self.move()
         elif self.TimeOfMovement > 0:
             self.x += self.Movex * loop_factor
             self.y += self.Movey * loop_factor
-            self.TimeOfMovement -= 1
+            self.TimeOfMovement -= loop_factor
+            self.x = self.x % widthCanvas
+            self.y = self.y % heightCanvas
         else:
             print("Error: TimeOfMovement below threshold")
 
@@ -77,11 +79,11 @@ class person:
                     if i.status == 0 and math.sqrt((self.x-i.x)**2+(self.y-i.y)**2) <= spreadRadius:
                         #Does makes it so it doesn't imeadieately spread from the person
                         i.status = -1
-            if random.random() < deathChance:
+            if random.random() < deathChance*loop_factor:
                 self.status = -2
-            elif random.random() < imunityChance:
+            elif random.random() < imunityChance*loop_factor:
                 self.status = -3
-            elif random.random() < healthyChance:
+            elif random.random() < healthyChance*loop_factor:
                 self.status = -4
                 self.color = "yellow"
                 self.healthyTime = random.randint(config.getVal("-tempImuneMin"),config.getVal("-tempImuneMax"))
