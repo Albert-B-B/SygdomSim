@@ -24,7 +24,8 @@ defaultConfig = {
     "-healthyColor" : "blue",
     "-imuneColor" : "cyan",
     "-deathColor" : "black",
-    "-tempImuneColor" : "yellow"
+    "-tempImuneColor" : "yellow",
+    "-randInitialSick" : 2
     }
 #Has current values
 config = defaultConfig.copy()

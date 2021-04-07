@@ -110,8 +110,9 @@ people = []
 numPep = config.getVal("-pop")
 for i in range(numPep):
     people.append(person(0,random.randint(0, widthCanvas),random.randint(0,heightCanvas),"blue"))
-people.append(person(1,350,350,"red"))
-people.append(person(1,50,50,"red"))
+for i in range(config.getVal("-randInitialSick")):
+    people.append(person(1,random.randint(0, widthCanvas),random.randint(0,heightCanvas),"blue"))
+
 #Spreads disease for entire population
 def spreadPop():
     global people
