@@ -13,6 +13,8 @@ import ParameterHandler as config
 
 import random
 import math
+import matplotlib.pyplot as plt
+
 
 #Initializes settings
 args = sys.argv
@@ -26,6 +28,11 @@ canvas = tk.Canvas(root,height=heightCanvas,width=widthCanvas,background="grey")
 canvas.pack()
 
 loop_factor = 0
+dataHealthy = []
+dataSick = []
+dataDead = []
+dataImune = []
+dataTempImune = [] 
 
 class person:
     def __init__(self,status,x,y,color):
@@ -81,10 +88,11 @@ class person:
                         i.status = -1
             if random.random() < deathChance*loop_factor:
                 self.status = -2
+                self.TimeOfMovement = 0
             elif random.random() < imunityChance*loop_factor:
                 self.status = -3
             elif random.random() < healthyChance*loop_factor:
-                self.status = -4
+                self.status = 4
                 self.color = "yellow"
                 self.healthyTime = random.randint(config.getVal("-tempImuneMin"),config.getVal("-tempImuneMax"))
     #Handles the result of spreading
@@ -98,12 +106,12 @@ class person:
         elif self.status == -3:
             self.status = 3
             self.color = config.getVal("-imuneColor")
-        elif self.status == -4:
-            self.healthyTime -= 1
+        elif self.status == 4:
+            self.healthyTime -= 1*loop_factor
             if self.healthyTime == 0:
                 self.status = 0
                 self.color = config.getVal("-healthyColor")
-
+class ManInBlack(person):
 
 people = []
 #Number of people
@@ -120,7 +128,27 @@ def spreadPop():
         i.spread(people)
     for i in people:
         i.resolveSpread()
-
+        
+def recordData():
+    global dataHealthy 
+    global dataSick 
+    global dataDead 
+    global dataImune 
+    global dataTempImune  
+    statusCount = [0,0,0,0,0]
+    for i in people:
+        statusCount[i.status] += 1
+    dataHealthy.append(statusCount[0])
+    dataSick.append(statusCount[1])
+    dataDead.append(statusCount[2])
+    dataImune.append(statusCount[3])
+    dataTempImune.append(statusCount[4])
+def showData():
+    points = list(range(len(dataHealthy)))
+    plt.plot(points,dataHealthy,"b",points,dataSick,"r",points,dataDead,"k",points,dataImune,"cyan",points,dataTempImune,"y")
+    plt.savefig("graf.png")
+    plt.show()
+    
 #UI
 done = False
 while True:
@@ -138,6 +166,7 @@ while True:
 
     loop_factor = (time.time() - start_time)
     spreadPop()
+    recordData()
     if done:
         break
     done = True
@@ -149,5 +178,7 @@ dead = 0
 for i in people:
     if i.status == 2:
         dead += 1
+showData()
 print("Dead: " + str(dead))
 input("Time stop")
+root.destroy()
