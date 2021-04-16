@@ -108,10 +108,11 @@ class person:
             self.color = config.getVal("-imuneColor")
         elif self.status == 4:
             self.healthyTime -= 1*loop_factor
-            if self.healthyTime == 0:
+            if self.healthyTime <= 0:
                 self.status = 0
                 self.color = config.getVal("-healthyColor")
 class ManInBlack(person):
+    pass
 
 people = []
 #Number of people
