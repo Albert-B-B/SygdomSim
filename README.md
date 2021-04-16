@@ -52,7 +52,37 @@ Decides how far an agent moves each frame. Default value is 30.
 Decides how big the agent is. Default value is 5.
 
 ### -spreadRadius
-Decides how far an infected agent can infect. Default value is 20
+Decides how far an infected agent can infect
 
 ### -tempImmuneMin
-Decides
+Decides minimum time that a agent can be temporarily imune. Default value is 0.
+
+### -tempImmuneMax
+Decides maximum time that a agent can be temporarily imune. Default value is 5.
+
+### -spreadType
+Decides how the disease is spread currently only distance is supported. Default value is 0.
+
+### -turnIntervalMin
+Decides minimum time in seconds it can take for an agent to change direction. Default value is 15.
+
+### -turnIntervalMax
+Decides maximum time in seconds it can take for an agent to change direction. Default value is 15.
+
+### -healthyColor
+Decides what color sick agents are. Default value is "red".
+
+### -healthyColor
+Decides what color healthy agents are. Default value is "blue".
+
+### -immuneColor
+Decides what color permanently immune agents are. Default value is "cyan".
+
+### -deathColor
+Decides what color dead agents are. Default value is "black"
+
+### -tempImmuneColor
+Decides what color temporarily immune agents are. Default value is "yellow".
+
+### -randInitialSick
+Decides how many sick people are initialy added. They are added at random locations. They are added to the total number of people. Default value is 2. 
