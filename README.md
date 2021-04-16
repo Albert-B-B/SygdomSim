@@ -52,7 +52,7 @@ Decides how far an agent moves each frame. Default value is 30.
 Decides how big the agent is. Default value is 5.
 
 ### -spreadRadius
-Decides how far an infected agent can infect
+Decides how far an infected agent can infect. Default value is 20
 
 ### -tempImmuneMin
 Decides
