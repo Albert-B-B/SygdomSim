@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Mar  4 10:23:44 2021
+#Program simulates the spreading of a dissease
 
-@author:
-"""
 import tkinter as tk
 from random import randrange
 
