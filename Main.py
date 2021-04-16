@@ -48,28 +48,37 @@ class person:
         self.color = color
         self.TimeOfMovement = 0
         self.healthyTime = 0  #How much time person has left as temporarily imune
+    #Updates direction traveled
     def move(self):
-        #Controls direction and length in frames
+        #What angle it need to travel
         Angle = randrange(0,360)
+        #How much time until it changes direction
         TOM = randrange(config.getVal("-turnIntervalMin"),config.getVal("-turnIntervalMax"),1)
         SPEED = config.getVal("-speed")
+        #Translates this into how fast it should travel in each direction
         Movementx = math.cos(math.radians(Angle))*SPEED
         Movementy = math.sin(math.radians(Angle))*SPEED
+        #Stops dead people moving
         if self.status == 2:
             Movementx = 0
             Movementy = 0
         return Movementx, Movementy, TOM
-
+    #Draws the agent on tkinter canvas
     def draw(self):
-        r = config.getVal("-squareLength")
-        canvas.create_rectangle(self.x-r, self.y-r, self.x+r, self.y+r, fill=self.color)
-
+        
+        r = config.getVal("-squareLength") #Radius of square drawn
+        
+        canvas.create_rectangle(self.x-r, self.y-r, self.x+r, self.y+r, fill=self.color) #Draws the square
+        
+        #See if persons direction should change
         if self.TimeOfMovement <= 0:
             self.Movex, self.Movey, self.TimeOfMovement = self.move()
+        #Moves person in the choosen direction
         elif self.TimeOfMovement > 0:
             self.x += self.Movex * loop_factor
             self.y += self.Movey * loop_factor
             self.TimeOfMovement -= loop_factor
+            #Makes sure people don't move out of bounds
             self.x = self.x % widthCanvas
             self.y = self.y % heightCanvas
         else:
