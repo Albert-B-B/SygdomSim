@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Mar 23 12:39:29 2021
-
-@author: Mi
-"""
+#Program for handling chaning settings with command line
 #Dictionary containing values for settings.
 defaultConfig = {
     "-width" : 500,
